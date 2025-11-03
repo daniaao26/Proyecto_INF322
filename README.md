@@ -1,6 +1,6 @@
 # Proyecto_INF322
-Daniela Aguilar
+* Daniela Aguilar
 
-Valentina Ibacache
+* Valentina Ibacache
 
-Matias Lara
+* Matias Lara
