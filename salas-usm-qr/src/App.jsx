@@ -43,37 +43,41 @@ export default function App() {
 
   // Renderizado condicional de vistas
   return (
-    <div className="min-h-screen bg-gray-100">
+    <>
       {vistaActual === "home" && (
         <Home onNavigate={handleNavigate} />
       )}
 
-      {vistaActual === "escanear" && (
-        <EscanearQR
-          onNavigate={handleNavigate}
-          onSalaSeleccionada={handleSalaSeleccionada}
-        />
-      )}
+      {vistaActual !== "home" && (
+        <div className="min-h-screen bg-gray-100">
+          {vistaActual === "escanear" && (
+            <EscanearQR
+              onNavigate={handleNavigate}
+              onSalaSeleccionada={handleSalaSeleccionada}
+            />
+          )}
 
-      {vistaActual === "detalle" && (
-        <DetalleSala
-          sala={salaSeleccionada}
-          onNavigate={handleNavigate}
-          onReservar={handleReservar}
-        />
-      )}
+          {vistaActual === "detalle" && (
+            <DetalleSala
+              sala={salaSeleccionada}
+              onNavigate={handleNavigate}
+              onReservar={handleReservar}
+            />
+          )}
 
-      {vistaActual === "reservas" && (
-        <MisReservas
-          reservas={reservas}
-          onNavigate={handleNavigate}
-          onCancelar={handleCancelarReserva}
-        />
-      )}
+          {vistaActual === "reservas" && (
+            <MisReservas
+              reservas={reservas}
+              onNavigate={handleNavigate}
+              onCancelar={handleCancelarReserva}
+            />
+          )}
 
-      {vistaActual === "horarios" && (
-        <HorarioSalas onNavigate={handleNavigate} />
+          {vistaActual === "horarios" && (
+            <HorarioSalas onNavigate={handleNavigate} />
+          )}
+        </div>
       )}
-    </div>
+    </>
   );
 }

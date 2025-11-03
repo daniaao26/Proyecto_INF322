@@ -1,49 +1,68 @@
 import React from "react";
-import Header from "../components/Header";
 import Button from "../components/Button";
 
 export default function Home({ onNavigate }) {
   return (
-    <div className="min-h-screen bg-gray-100">
-      <Header title="Salas USM QR" />
-      
-      <div className="max-w-sm mx-auto p-6 flex flex-col items-center justify-center min-h-[calc(100vh-64px)]">
-        {/* Logo o icono principal */}
-        <div className="mb-8 text-center">
-          <div className="w-24 h-24 mx-auto mb-4 bg-blue-600 rounded-full flex items-center justify-center">
-            <span className="text-4xl text-white">📱</span>
-          </div>
-          <h2 className="text-2xl font-bold text-gray-800">Bienvenido</h2>
-          <p className="text-gray-600 mt-2">Gestiona las salas de la USM</p>
+    <div
+      className="relative min-h-screen bg-cover bg-center"
+      style={{ backgroundImage: "url('../src/assets/usm-CC.jpeg')" }}
+    >
+      <div className="absolute inset-0 bg-black/60" />
+
+      {/* Logo en la esquina superior izquierda */}
+      <img
+        src="../src/assets/Logo_USM.png"
+        alt="Logo USM"
+        className="absolute top-4 left-4 w-14 h-auto z-10"
+      />
+
+      {/* Contenido principal centrado */}
+      <div className="relative z-5 flex flex-col items-center justify-center min-h-screen p-6 text-center">
+        
+        {/* Sección de Texto */}
+        <div className="mb-10">
+          <h1 className="text-white font-bold flex items-center justify-center gap-3">
+            {/* El "QR" grande */}
+            <span className="text-7xl">QR</span>
+            {/* El texto "SALAS USM" en dos líneas */}
+            <span className="text-4xl text-left leading-tight">
+              SALAS
+              <br />
+              USM
+            </span>
+          </h1>
+          <p className="text-white text-lg mt-4 max-w-xs mx-auto">
+            Bienvenid@ a Salas USM. Gestiona tus reservas fácilmente.
+          </p>
         </div>
 
-        {/* Botón principal grande */}
-        <div className="w-full mb-4">
+        {/* Sección de Botones */}
+        <div className="w-full max-w-xs flex flex-col items-center gap-4">
           <Button
             onClick={() => onNavigate("escanear")}
-            variant="primary"
-            size="large"
-            className="w-full py-6 text-xl"
-          >
-            📷 Escanear Sala
-          </Button>
-        </div>
-
-        {/* Botones secundarios */}
-        <div className="w-full grid grid-cols-2 gap-4">
-          <Button
-            onClick={() => onNavigate("reservas")}
             variant="secondary"
-            className="py-5"
+            size="large"
+            className="w-full !bg-gray-800/90 !text-white hover:!bg-gray-700/90"
           >
-            📋 Mis Reservas
+            Escanear Sala
           </Button>
+
           <Button
             onClick={() => onNavigate("horarios")}
             variant="secondary"
-            className="py-5"
+            size="large"
+            className="w-full !bg-gray-800/90 !text-white hover:!bg-gray-700/90"
           >
-            🕐 Horario de Salas
+            Horarios de Salas
+          </Button>
+
+          <Button
+            onClick={() => onNavigate("reservas")}
+            variant="secondary"
+            size="large"
+            className="w-full !bg-gray-800/90 !text-white hover:!bg-gray-700/90"
+          >
+            Mis reservas
           </Button>
         </div>
       </div>
