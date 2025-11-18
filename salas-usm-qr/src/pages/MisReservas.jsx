@@ -1,11 +1,14 @@
-import React from "react";
+import React, { useState } from "react";
 import Header from "../components/Header";
 import Button from "../components/Button";
 import Card from "../components/Card";
+import ConfirmModal from "../components/ConfirmModal";
+import { HiClock, HiCalendar, HiUser, HiCheckCircle } from "react-icons/hi2";
 
 export default function MisReservas({ reservas, onNavigate, onCancelar }) {
+  const [reservaACancelar, setReservaACancelar] = useState(null);
   return (
-    <div className="min-h-screen bg-gray-100">
+    <div className="min-h-screen bg-gray-100 pb-20">
       <Header title="Mis Reservas" onBack={() => onNavigate("home")} />
 
       <div className="max-w-sm mx-auto p-6">
@@ -38,51 +41,41 @@ export default function MisReservas({ reservas, onNavigate, onCancelar }) {
               </p>
             </div>
 
-            <div className="space-y-4">
+            <div className="space-y-3">
               {reservas.map((reserva) => (
-                <Card key={reserva.id} className="hover:shadow-lg transition-shadow">
-                  <div className="flex items-start justify-between">
-                    <div className="flex-1">
-                      <h3 className="text-lg font-bold text-gray-800">
-                        Sala {reserva.sala}
-                      </h3>
-                      <div className="mt-2 space-y-1 text-sm text-gray-600">
-                        <div className="flex items-center">
-                          <span className="mr-2">🕐</span>
-                          <span>Bloque {reserva.bloque}</span>
-                        </div>
-                        <div className="flex items-center">
-                          <span className="mr-2">📅</span>
-                          <span>{reserva.fecha}</span>
-                        </div>
-                        <div className="flex items-center">
-                          <span className="mr-2">👤</span>
-                          <span>{reserva.usuario}</span>
-                        </div>
-                      </div>
+                <Card key={reserva.id} className="hover:shadow-lg transition-shadow p-3">
+                  <div className="flex items-center justify-between mb-2">
+                    <h3 className="text-base font-bold text-gray-800">
+                      Sala {reserva.sala}
+                    </h3>
+                    <span className="inline-block px-2 py-0.5 bg-green-100 text-green-800 text-xs font-semibold rounded-full flex items-center gap-1">
+                      <HiCheckCircle /> Activa
+                    </span>
+                  </div>
+
+                  <div className="grid grid-cols-2 gap-x-3 gap-y-1 text-sm text-gray-600 mb-3">
+                    <div className="flex items-center">
+                      <HiClock className="mr-1.5 text-base" />
+                      <span>Bloque {reserva.bloque}</span>
                     </div>
-                    
-                    <div className="ml-4">
-                      <span className="inline-block px-3 py-1 bg-green-100 text-green-800 text-xs font-semibold rounded-full">
-                        Activa
-                      </span>
+                    <div className="flex items-center">
+                      <HiCalendar className="mr-1.5 text-base" />
+                      <span>{reserva.fecha}</span>
+                    </div>
+                    <div className="flex items-center col-span-2">
+                      <HiUser className="mr-1.5 text-base" />
+                      <span>{reserva.usuario}</span>
                     </div>
                   </div>
 
-                  <div className="mt-4 pt-4 border-t border-gray-200">
-                    <Button
-                      onClick={() => {
-                        if (window.confirm(`¿Estás seguro de cancelar la reserva de la sala ${reserva.sala}?`)) {
-                          onCancelar(reserva.id);
-                        }
-                      }}
-                      variant="danger"
-                      size="small"
-                      className="w-full"
-                    >
-                      Cancelar Reserva
-                    </Button>
-                  </div>
+                  <Button
+                    onClick={() => setReservaACancelar(reserva)}
+                    variant="danger"
+                    size="small"
+                    className="w-full py-2 text-sm"
+                  >
+                    Cancelar Reserva
+                  </Button>
                 </Card>
               ))}
             </div>
@@ -99,6 +92,19 @@ export default function MisReservas({ reservas, onNavigate, onCancelar }) {
           </>
         )}
       </div>
+      
+      {/* Modal de confirmación para cancelar */}
+      {reservaACancelar && (
+        <ConfirmModal
+          title="Cancelar Reserva"
+          message={`¿Estás seguro de cancelar la reserva de la sala ${reservaACancelar.sala} para el bloque ${reservaACancelar.bloque}?`}
+          onConfirm={() => {
+            onCancelar(reservaACancelar.id);
+            setReservaACancelar(null);
+          }}
+          onCancel={() => setReservaACancelar(null)}
+        />
+      )}
     </div>
   );
 }

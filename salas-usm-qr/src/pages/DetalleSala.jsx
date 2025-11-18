@@ -1,10 +1,25 @@
-import React from "react";
+import React, { useState } from "react";
 import Header from "../components/Header";
 import Button from "../components/Button";
 import Card from "../components/Card";
+import ConfirmModal from "../components/ConfirmModal";
 import { bloques } from "../data/mockData";
+import { HiCalendar, HiBuildingOffice2, HiUsers, HiComputerDesktop } from "react-icons/hi2";
 
 export default function DetalleSala({ sala, onNavigate, onReservar }) {
+  // Obtener fecha actual y fecha máxima (7 días desde hoy)
+  const hoy = new Date();
+  const maxFecha = new Date();
+  maxFecha.setDate(maxFecha.getDate() + 7);
+
+  // Estado para la fecha seleccionada (por defecto hoy)
+  const [fechaSeleccionada, setFechaSeleccionada] = useState(
+    hoy.toISOString().split('T')[0]
+  );
+  
+  // Estado para el modal de confirmación
+  const [confirmacion, setConfirmacion] = useState(null);
+
   if (!sala) {
     return (
       <div className="min-h-screen bg-gray-100">
@@ -17,15 +32,21 @@ export default function DetalleSala({ sala, onNavigate, onReservar }) {
   }
 
   const handleReserva = (bloque) => {
-    if (window.confirm(`¿Confirmar reserva de sala ${sala.nombre} para el bloque ${bloque}?`)) {
-      onReservar(sala, bloque);
-      alert(`✅ Reserva confirmada para la sala ${sala.nombre}, bloque ${bloque}`);
-      onNavigate("home");
-    }
+    const fechaFormateada = new Date(fechaSeleccionada + 'T00:00:00').toLocaleDateString('es-CL');
+    setConfirmacion({
+      bloque,
+      fechaFormateada
+    });
+  };
+
+  const confirmarReserva = () => {
+    onReservar(sala, confirmacion.bloque, fechaSeleccionada);
+    setConfirmacion(null);
+    onNavigate("home");
   };
 
   return (
-    <div className="min-h-screen bg-gray-100">
+    <div className="min-h-screen bg-gray-100 pb-20">
       <Header
         title={`Sala ${sala.nombre}`}
         onBack={() => onNavigate("escanear")}
@@ -39,18 +60,39 @@ export default function DetalleSala({ sala, onNavigate, onReservar }) {
           </h2>
           <div className="space-y-2 text-gray-700">
             <div className="flex items-center">
-              <span className="font-semibold mr-2">🏢 Edificio:</span>
+              <HiBuildingOffice2 className="text-lg mr-2" />
+              <span className="font-semibold mr-2">Edificio:</span>
               <span>{sala.edificio}</span>
             </div>
             <div className="flex items-center">
-              <span className="font-semibold mr-2">👥 Capacidad:</span>
+              <HiUsers className="text-lg mr-2" />
+              <span className="font-semibold mr-2">Capacidad:</span>
               <span>{sala.capacidad} personas</span>
             </div>
             <div className="flex items-start">
-              <span className="font-semibold mr-2">🖥️ Equipamiento:</span>
+              <HiComputerDesktop className="text-lg mr-2 mt-0.5" />
+              <span className="font-semibold mr-2">Equipamiento:</span>
               <span>{sala.equipamiento}</span>
             </div>
           </div>
+        </Card>
+
+        {/* Selector de Fecha */}
+        <Card className="mb-6">
+          <h3 className="text-lg font-bold text-gray-800 mb-3 flex items-center gap-2">
+            <HiCalendar className="text-xl" /> Seleccionar Fecha
+          </h3>
+          <input
+            type="date"
+            value={fechaSeleccionada}
+            onChange={(e) => setFechaSeleccionada(e.target.value)}
+            min={hoy.toISOString().split('T')[0]}
+            max={maxFecha.toISOString().split('T')[0]}
+            className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg text-lg focus:outline-none focus:border-blue-500 transition-colors"
+          />
+          <p className="text-sm text-gray-500 mt-2">
+            Puedes reservar hasta 7 días de anticipación
+          </p>
         </Card>
 
         {/* Disponibilidad por bloques */}
@@ -95,6 +137,16 @@ export default function DetalleSala({ sala, onNavigate, onReservar }) {
           </div>
         </Card>
       </div>
+      
+      {/* Modal de confirmación */}
+      {confirmacion && (
+        <ConfirmModal
+          title="Confirmar Reserva"
+          message={`¿Confirmar reserva de sala ${sala.nombre} para el bloque ${confirmacion.bloque} el día ${confirmacion.fechaFormateada}?`}
+          onConfirm={confirmarReserva}
+          onCancel={() => setConfirmacion(null)}
+        />
+      )}
     </div>
   );
 }

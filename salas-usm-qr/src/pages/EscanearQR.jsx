@@ -2,6 +2,7 @@ import React from "react";
 import Header from "../components/Header";
 import Button from "../components/Button";
 import { salas } from "../data/mockData";
+import { HiCamera, HiLightBulb, HiArrowRight } from "react-icons/hi2";
 
 export default function EscanearQR({ onNavigate, onSalaSeleccionada }) {
   const handleSelectSala = (sala) => {
@@ -10,13 +11,13 @@ export default function EscanearQR({ onNavigate, onSalaSeleccionada }) {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100">
+    <div className="min-h-screen bg-gray-100 pb-20">
       <Header title="Escanear Sala" onBack={() => onNavigate("home")} />
 
       <div className="max-w-sm mx-auto p-6">
         <div className="text-center mb-6">
           <div className="w-32 h-32 mx-auto mb-4 bg-white rounded-lg shadow-md flex items-center justify-center">
-            <span className="text-6xl">📷</span>
+            <HiCamera className="text-7xl text-gray-400" />
           </div>
           <h2 className="text-xl font-bold text-gray-800 mb-2">
             Simular Escaneo QR
@@ -40,16 +41,19 @@ export default function EscanearQR({ onNavigate, onSalaSeleccionada }) {
                   - {sala.edificio}
                 </span>
               </div>
-              <span className="text-2xl">→</span>
+              <HiArrowRight className="text-2xl" />
             </Button>
           ))}
         </div>
 
         <div className="mt-6 p-4 bg-blue-50 rounded-lg border border-blue-200">
-          <p className="text-sm text-blue-800">
-            💡 <strong>Nota:</strong> En la versión final, aquí se activará la
-            cámara del dispositivo para escanear códigos QR reales pegados en
-            cada sala.
+          <p className="text-sm text-blue-800 flex items-start gap-2">
+            <HiLightBulb className="text-lg flex-shrink-0 mt-0.5" />
+            <span>
+              <strong>Nota:</strong> En la versión final, aquí se activará la
+              cámara del dispositivo para escanear códigos QR reales pegados en
+              cada sala.
+            </span>
           </p>
         </div>
       </div>

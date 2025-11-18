@@ -4,6 +4,8 @@ import EscanearQR from "./pages/EscanearQR";
 import DetalleSala from "./pages/DetalleSala";
 import MisReservas from "./pages/MisReservas";
 import HorarioSalas from "./pages/HorarioSalas";
+import BottomNav from "./components/BottomNav";
+import Toast from "./components/Toast";
 import { reservasIniciales } from "./data/mockData";
 
 export default function App() {
@@ -13,6 +15,9 @@ export default function App() {
   // Estado de datos
   const [salaSeleccionada, setSalaSeleccionada] = useState(null);
   const [reservas, setReservas] = useState(reservasIniciales);
+  
+  // Estado para Toast
+  const [toast, setToast] = useState(null);
 
   // Función de navegación
   const handleNavigate = (vista) => {
@@ -25,31 +30,39 @@ export default function App() {
   };
 
   // Función para realizar una reserva
-  const handleReservar = (sala, bloque) => {
+  const handleReservar = (sala, bloque, fecha) => {
     const nuevaReserva = {
-      id: Date.now(), // Usamos timestamp como ID único
+      id: Date.now(),
       sala: sala.nombre,
       bloque: bloque,
-      fecha: new Date().toLocaleDateString("es-CL"),
+      fecha: fecha ? new Date(fecha + 'T00:00:00').toLocaleDateString("es-CL") : new Date().toLocaleDateString("es-CL"),
       usuario: "Usuario Demo",
     };
     setReservas([...reservas, nuevaReserva]);
+    setToast({
+      message: `Reserva confirmada: Sala ${sala.nombre}, Bloque ${bloque}`,
+      type: "success"
+    });
   };
 
   // Función para cancelar una reserva
   const handleCancelarReserva = (id) => {
     setReservas(reservas.filter((r) => r.id !== id));
+    setToast({
+      message: "Reserva cancelada exitosamente",
+      type: "info"
+    });
   };
 
   // Renderizado condicional de vistas
   return (
-    <>
+    <div className="relative">
       {vistaActual === "home" && (
-        <Home onNavigate={handleNavigate} />
+        <Home onNavigate={handleNavigate} reservas={reservas} />
       )}
 
       {vistaActual !== "home" && (
-        <div className="min-h-screen bg-gray-100">
+        <div className="min-h-screen bg-gray-100 pb-20">
           {vistaActual === "escanear" && (
             <EscanearQR
               onNavigate={handleNavigate}
@@ -74,10 +87,25 @@ export default function App() {
           )}
 
           {vistaActual === "horarios" && (
-            <HorarioSalas onNavigate={handleNavigate} />
+            <HorarioSalas 
+              onNavigate={handleNavigate}
+              onReservar={handleReservar}
+            />
           )}
         </div>
       )}
-    </>
+
+      {/* Barra de navegación inferior en todas las vistas */}
+      <BottomNav vistaActual={vistaActual} onNavigate={handleNavigate} />
+      
+      {/* Toast para notificaciones */}
+      {toast && (
+        <Toast
+          message={toast.message}
+          type={toast.type}
+          onClose={() => setToast(null)}
+        />
+      )}
+    </div>
   );
 }
