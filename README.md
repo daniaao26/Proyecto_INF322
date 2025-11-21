@@ -5,3 +5,14 @@ Dentro de este repositorio, se encuentra el proyecto de Salas USM diseñado en e
 * Daniela Aguilar Oportus.
 * Valentina Ibacache Burgos.
 * Matias Lara Plaza.
+
+## Instrucciones de uso:
+Para ejecutar de manera local, instalamos dependencias:
+```bash
+npm install
+```
+Luego, ejecutamos con:
+```bash
+npm run dev
+```
+Finalmente, **ctrl** + click en enlace.
