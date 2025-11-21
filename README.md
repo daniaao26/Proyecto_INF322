@@ -7,6 +7,10 @@ Dentro de este repositorio, se encuentra el proyecto de Salas USM diseñado en e
 * Matias Lara Plaza.
 
 ## Instrucciones de uso:
+Dentro de carpeta salas-usm-qr:
+```bash
+cd salas-usm-qr
+```
 Para ejecutar de manera local, instalamos dependencias:
 ```bash
 npm install
