@@ -10,6 +10,22 @@ export const bloques = [
   "15-16",
 ];
 
+// Etiquetas disponibles para filtrar
+export const etiquetasEquipamiento = [
+  "Pizarra",
+  "Proyector",
+  "Mesas Grupales",
+  "Computadores",
+  "Aire Acondicionado",
+];
+
+export const etiquetasEdificio = [
+  "Edificio P",
+  "Edificio C",
+  "Edificio M",
+  "Edificio F",
+];
+
 // Salas disponibles en el sistema
 export const salas = [
   {
@@ -19,6 +35,7 @@ export const salas = [
     capacidad: 40,
     equipamiento: "Proyector y pizarra",
     edificio: "Principal",
+    etiquetas: ["Pizarra", "Proyector", "Mesas Grupales", "Edificio P"],
   },
   {
     id: 2,
@@ -27,6 +44,7 @@ export const salas = [
     capacidad: 60,
     equipamiento: "Computadores y proyector",
     edificio: "Principal",
+    etiquetas: ["Proyector", "Computadores", "Edificio P"],
   },
   {
     id: 3,
@@ -35,6 +53,7 @@ export const salas = [
     capacidad: 30,
     equipamiento: "Pizarra blanca",
     edificio: "Casa Central",
+    etiquetas: ["Pizarra", "Edificio C"],
   },
   {
     id: 4,
@@ -43,6 +62,7 @@ export const salas = [
     capacidad: 45,
     equipamiento: "Proyector, pizarra y aire acondicionado",
     edificio: "Mecánica",
+    etiquetas: ["Pizarra", "Proyector", "Aire Acondicionado", "Edificio M"],
   },
   {
     id: 5,
@@ -51,6 +71,7 @@ export const salas = [
     capacidad: 50,
     equipamiento: "Laboratorio de computación",
     edificio: "Física",
+    etiquetas: ["Computadores", "Mesas Grupales", "Edificio F"],
   },
 ];
 
